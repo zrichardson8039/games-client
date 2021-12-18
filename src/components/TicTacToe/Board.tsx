@@ -1,41 +1,43 @@
 import React from "react"
 import { ButtonGroup, Box } from "@mui/material"
 import Square from "./Square"
-import { BoardSquares } from "../types"
+import { BoardSquares, MoveCallback } from "../types"
 import { HEIGHT_100 } from "../constants"
 
 interface BoardProps {
   board: BoardSquares
-  onClick: (i: number) => void
+  onClick: MoveCallback
 }
 
-const Board: React.FC<BoardProps> = ({ board, onClick }: BoardProps) => {
-  const renderSquare = (i: number) => (
-    <Square
-      key={i}
-      value={board[i]}
-      onClick={() => onClick(i)}
-      sx={{ width: "33%", fontSize: "9rem", ...HEIGHT_100 }}
-    />
-  )
+interface RowProps extends BoardProps {
+  squares: number[]
+}
 
-  const renderRow = (N: number[]) => (
-    <ButtonGroup
-      sx={{ display: "block", height: "33.33%" }}
-      className="d"
-      variant="text"
-      color="secondary"
-      aria-label=""
-    >
-      {N.map((i) => renderSquare(i))}
-    </ButtonGroup>
-  )
+const Row: React.FC<RowProps> = ({ board, squares, onClick }: RowProps) => (
+  <ButtonGroup
+    sx={{ display: "block", height: "33.33%" }}
+    className="d"
+    variant="text"
+    color="secondary"
+    aria-label=""
+  >
+    {squares?.map((i) => (
+      <Square
+        key={i}
+        value={board[i]}
+        onClick={() => onClick(i)}
+        sx={{ width: "33%", fontSize: "9rem", ...HEIGHT_100 }}
+      />
+    ))}
+  </ButtonGroup>
+)
 
+const Board: React.FC<BoardProps> = (props: BoardProps) => {
   return (
     <Box sx={HEIGHT_100}>
-      {renderRow([0, 1, 2])}
-      {renderRow([3, 4, 5])}
-      {renderRow([6, 7, 8])}
+      <Row squares={[0, 1, 2]} {...props} />
+      <Row squares={[3, 4, 5]} {...props} />
+      <Row squares={[6, 7, 8]} {...props} />
     </Box>
   )
 }

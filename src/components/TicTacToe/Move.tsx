@@ -1,10 +1,11 @@
 import React from "react"
 import { Button } from "@mui/material"
 import Replay from "@mui/icons-material/Replay"
+import { MoveCallback } from "../types"
 
 export interface MoveProps {
   step: number
-  onClick: (step: number) => void
+  onClick: MoveCallback
 }
 
 const Move: React.FC<MoveProps> = ({ step, onClick }: MoveProps) => {
