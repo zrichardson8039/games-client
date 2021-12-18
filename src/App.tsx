@@ -3,7 +3,8 @@ import { ThemeProvider } from "@emotion/react"
 import { RouteProps } from "react-router"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import theme from "./theme"
-import Game, { NAMES } from "./screens/Game"
+import { NAMES } from "./components/types"
+import Game from "./components/Game"
 
 const routes: RouteProps[] = [
   {

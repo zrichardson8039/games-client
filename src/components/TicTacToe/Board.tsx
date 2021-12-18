@@ -1,8 +1,8 @@
 import React from "react"
 import { ButtonGroup, Box } from "@mui/material"
 import Square from "./Square"
-
-export type BoardSquares = string[] | undefined[]
+import { BoardSquares } from "../types"
+import { HEIGHT_100 } from "../constants"
 
 interface BoardProps {
   board: BoardSquares
@@ -15,7 +15,7 @@ const Board: React.FC<BoardProps> = ({ board, onClick }: BoardProps) => {
       key={i}
       value={board[i]}
       onClick={() => onClick(i)}
-      sx={{ height: "100%", width: "33%", fontSize: "9rem" }}
+      sx={{ width: "33%", fontSize: "9rem", ...HEIGHT_100 }}
     />
   )
 
@@ -32,7 +32,7 @@ const Board: React.FC<BoardProps> = ({ board, onClick }: BoardProps) => {
   )
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box sx={HEIGHT_100}>
       {renderRow([0, 1, 2])}
       {renderRow([3, 4, 5])}
       {renderRow([6, 7, 8])}

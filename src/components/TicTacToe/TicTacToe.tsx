@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
-import { Container, Grid, Paper, Typography } from "@mui/material"
-import { SocketContext } from "../../screens/Game"
-import Board, { BoardSquares } from "./Board"
+import { Box, Container, Grid } from "@mui/material"
+import { SocketContext } from "../Game"
+import Board from "./Board"
+import { BoardSquares, GameState, Winner } from "../types"
+import Info from "./Info"
+import Move from "./Move"
+import { HEIGHT_100 } from "../constants"
 
-function calculateWinner(board: BoardSquares): string | undefined {
+function calculateWinner(board: BoardSquares): Winner {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -26,27 +30,44 @@ function calculateWinner(board: BoardSquares): string | undefined {
 const TicTacToe: React.FC = () => {
   const socket = useContext(SocketContext)
 
-  const [board, setBoard] = useState<BoardSquares>(Array(9).fill(null))
-  const [xIsNext, setXIsNext] = useState(true)
+  const [state, setState] = useState<GameState>({
+    history: [{ board: Array(9).fill(null) }],
+    step: 0,
+    playerCount: 2,
+    playerTurn: 1,
+  })
 
-  const handleClick = (i: number) => {
-    if (winner) return
-    board[i] = xIsNext ? "X" : "O"
-    setBoard(board)
-    setXIsNext(!xIsNext)
-    socket.emit("move", board)
+  const winner = calculateWinner(state.history[state.step].board)
+
+  const handleMoveClick = (step: number) => {
+    setState((s) => ({
+      ...s,
+      step,
+      playerTurn: (step % s.playerCount) + 1,
+    }))
   }
 
-  const winner = calculateWinner(board)
+  const handleClick = (square: number) => {
+    const { history, step, playerCount, playerTurn } = state
+    const moves = history.slice(0, step + 1)
+    const current = moves[moves.length - 1]
+    const board = current.board.slice()
 
-  let status = "Next player: " + (xIsNext ? "X" : "O")
-  if (winner) {
-    status = "Winner: " + winner
+    if (calculateWinner(board) || board[square]) return
+
+    board[square] = playerTurn === 1 ? "X" : "O"
+
+    setState((s) => ({
+      ...s,
+      history: moves.concat([{ board }]),
+      step: step + 1,
+      playerTurn: (step % playerCount) + 1,
+    }))
   }
 
   useEffect(() => {
     socket.on("move", (board: BoardSquares) => {
-      setBoard(board)
+      setState((s) => ({ ...s, history: s.history.concat({ board }) }))
     })
   }, [socket])
 
@@ -55,16 +76,21 @@ const TicTacToe: React.FC = () => {
       sx={{ bgcolor: "primary.main", height: "100vh", padding: "1rem" }}
       maxWidth={false}
     >
-      <Grid container sx={{ height: "100%" }}>
-        <Grid item xs={9} sx={{ height: "100%" }}>
-          <Board board={board} onClick={(i) => handleClick(i)} />
+      <Grid container sx={HEIGHT_100}>
+        <Grid item xs={9} sx={HEIGHT_100}>
+          <Board
+            board={state.history[state.step].board}
+            onClick={handleClick}
+          />
         </Grid>
-        <Grid item xs={3}>
-          <Paper sx={{ height: "100%" }}>
-            <Typography variant="h4" color="secondary">
-              {status}
-            </Typography>
-          </Paper>
+        <Grid item xs={3} sx={{ overflowY: "auto", ...HEIGHT_100 }}>
+          <Info winner={winner} {...state}>
+            {state.history.map((_, i) => (
+              <Box key={i}>
+                <Move step={i} onClick={handleMoveClick} />
+              </Box>
+            ))}
+          </Info>
         </Grid>
       </Grid>
     </Container>
