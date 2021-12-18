@@ -69,6 +69,7 @@ const TicTacToe: React.FC = () => {
 
   useEffect(() => {
     socket.on("move", (board: BoardSquares) => {
+      console.log(board)
       setState((s) => ({ ...s, history: s.history.concat({ board }) }))
     })
   }, [socket])
