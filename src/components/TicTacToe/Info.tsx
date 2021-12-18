@@ -8,19 +8,17 @@ export interface InfoProps extends GameState {
 
 const Info: React.FC<InfoProps> = ({
   winner,
-  playerTurn,
+  player,
   playerCount,
   step,
   children,
-  ...props
 }: InfoProps) => {
   return (
     <>
       <Typography variant="h4" color="secondary">
         {!winner
-          ? `Player ${playerTurn} Turn`
-          : `Winner: Player ${(step % playerCount) + 1}`}{" "}
-        | {`Move: ${step}`}
+          ? `Player: ${player} | Move: ${Math.floor(step / playerCount) + 1}`
+          : `Winner: Player ${(step % playerCount) + 1}`}
       </Typography>
       <Divider color="white" sx={{ marginTop: "1rem", marginBottom: "1rem" }} />
       {children}

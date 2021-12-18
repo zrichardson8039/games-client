@@ -34,7 +34,7 @@ const TicTacToe: React.FC = () => {
     history: [{ board: Array(9).fill(null) }],
     step: 0,
     playerCount: 2,
-    playerTurn: 1,
+    player: 1,
   })
 
   const winner = calculateWinner(state.history[state.step].board)
@@ -43,25 +43,25 @@ const TicTacToe: React.FC = () => {
     setState((s) => ({
       ...s,
       step,
-      playerTurn: (step % s.playerCount) + 1,
+      player: (step % s.playerCount) + 1,
     }))
   }
 
   const handleClick = (square: number) => {
-    const { history, step, playerCount, playerTurn } = state
+    const { history, step, playerCount, player } = state
     const moves = history.slice(0, step + 1)
     const current = moves[moves.length - 1]
     const board = current.board.slice()
 
     if (calculateWinner(board) || board[square]) return
 
-    board[square] = playerTurn === 1 ? "X" : "O"
+    board[square] = player === 1 ? "X" : "O"
 
     setState((s) => ({
       ...s,
       history: moves.concat([{ board }]),
       step: step + 1,
-      playerTurn: (step % playerCount) + 1,
+      player: ((step + 1) % playerCount) + 1,
     }))
   }
 

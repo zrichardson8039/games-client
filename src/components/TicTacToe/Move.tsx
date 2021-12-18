@@ -11,7 +11,9 @@ const Move: React.FC<MoveProps> = ({ step, onClick }: MoveProps) => {
   const desc = step ? "Go to move #" + step : "Go to game start"
   return (
     <Button
+      sx={{ margin: "0.5rem" }}
       color="secondary"
+      variant="outlined"
       onClick={() => onClick(step)}
       startIcon={<Replay />}
     >

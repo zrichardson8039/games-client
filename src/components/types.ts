@@ -11,7 +11,7 @@ export type MoveCallback = (i: number) => void
 export interface GameState {
   history: Move[]
   step: number
+  player: number
   playerCount: number
-  playerTurn: number
   winner?: Winner
 }
