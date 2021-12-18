@@ -63,6 +63,8 @@ const TicTacToe: React.FC = () => {
       step: step + 1,
       player: ((step + 1) % playerCount) + 1,
     }))
+
+    socket.emit("move", board)
   }
 
   useEffect(() => {

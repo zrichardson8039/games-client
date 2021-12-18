@@ -5,7 +5,7 @@ import { Name, NAMES } from "./types"
 
 const GAMES = { [NAMES.TIC_TAC_TOE]: <TicTacToe /> }
 
-const socket = io("localhost:5000")
+const socket = io("https://zachs-ai-games.herokuapp.com/")
 export const SocketContext = React.createContext(socket)
 
 export interface GameProps {
