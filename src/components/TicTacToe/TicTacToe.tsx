@@ -48,7 +48,7 @@ const TicTacToe: React.FC = () => {
   }
 
   const handleClick = (square: number) => {
-    const { history, step, playerCount, player } = state
+    const { history, step, player } = state
     const moves = history.slice(0, step + 1)
     const current = moves[moves.length - 1]
     const board = current.board.slice()
@@ -57,20 +57,19 @@ const TicTacToe: React.FC = () => {
 
     board[square] = player === 1 ? "X" : "O"
 
-    setState((s) => ({
-      ...s,
-      history: moves.concat([{ board }]),
-      step: step + 1,
-      player: ((step + 1) % playerCount) + 1,
-    }))
+    setState((s) => ({ ...s, history: moves }))
 
     socket.emit("move", board)
   }
 
   useEffect(() => {
     socket.on("move", (board: BoardSquares) => {
-      console.log(board)
-      setState((s) => ({ ...s, history: s.history.concat({ board }) }))
+      setState((s) => ({
+        ...s,
+        step: s.step + 1,
+        history: s.history.concat([{ board }]),
+        player: ((s.step + 1) % s.playerCount) + 1,
+      }))
     })
   }, [socket])
 
