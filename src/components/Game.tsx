@@ -1,7 +1,7 @@
 import React from "react"
 import { io } from "socket.io-client"
 import TicTacToe from "./TicTacToe/TicTacToe"
-import { Name, NAMES } from "./types"
+import { Name, NAMES } from "../utils/types"
 
 const GAMES = { [NAMES.TIC_TAC_TOE]: <TicTacToe /> }
 

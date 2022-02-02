@@ -1,6 +1,6 @@
 import React from "react"
 import { Divider, Typography } from "@mui/material"
-import { GameState } from "../types"
+import { GameState } from "../../utils/types"
 
 export interface InfoProps extends GameState {
   children?: React.ReactNode

@@ -1,8 +1,8 @@
 import React from "react"
 import { ButtonGroup, Box } from "@mui/material"
 import Square from "./Square"
-import { BoardSquares, MoveCallback } from "../types"
-import { HEIGHT_100 } from "../constants"
+import { HEIGHT_100 } from "../../utils/constants"
+import { BoardSquares, MoveCallback } from "../../utils/types"
 
 interface BoardProps {
   board: BoardSquares

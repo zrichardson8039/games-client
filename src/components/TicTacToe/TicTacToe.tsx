@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react"
 import { Box, Container, Grid } from "@mui/material"
 import { SocketContext } from "../Game"
 import Board from "./Board"
-import { BoardSquares, GameState, Winner } from "../types"
 import Info from "./Info"
 import Move from "./Move"
-import { HEIGHT_100 } from "../constants"
+import { HEIGHT_100 } from "../../utils/constants"
+import { BoardSquares, Winner, GameState } from "../../utils/types"
 
 function calculateWinner(board: BoardSquares): Winner {
   const lines = [

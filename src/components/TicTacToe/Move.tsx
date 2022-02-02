@@ -1,7 +1,7 @@
 import React from "react"
 import { Button } from "@mui/material"
 import Replay from "@mui/icons-material/Replay"
-import { MoveCallback } from "../types"
+import { MoveCallback } from "../../utils/types"
 
 export interface MoveProps {
   step: number
